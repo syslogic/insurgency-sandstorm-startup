@@ -1,0 +1,20 @@
+#!/bin/expect -f
+
+if {[llength $argv] == 0} {
+    send_user "Usage: steam.exp \[App ID\]\n"
+    exit 1
+}
+set APP_ID [lindex $argv 0];
+
+spawn ./steamcmd.sh
+set steam_spawn_id $spawn_id
+expect -ex "Steam>"
+exp_send "force_install_dir sandstorm\r"
+expect -ex "Steam>"
+exp_send "app_update ${app_id}\r"
+expect -ex "Steam>"
+exp_send "quit\r"
+
+expect eof
+close $steam_spawn_id
+exit 0
